@@ -5,7 +5,7 @@ pub fn get_shell() -> String {
         std::env::var("SHELL").map_or_else(|_| "Could not detect".to_string(), |v| v);
 
     // run with --version and return the output
-    let mut output = String::from_utf8(
+    let output = String::from_utf8(
         Command::new(shell_executable)
             .arg("--version")
             .output()
@@ -14,6 +14,5 @@ pub fn get_shell() -> String {
     )
     .unwrap();
 
-    output.pop();
-    output
+    output.split("\n").collect::<Vec<&str>>()[0].to_string()
 }
