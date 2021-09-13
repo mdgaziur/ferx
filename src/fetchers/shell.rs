@@ -1,18 +1,12 @@
-use std::process::Command;
+use libc::getpwuid;
+use nix::unistd::geteuid;
+use std::ffi::CStr;
 
 pub fn get_shell() -> String {
-    let shell_executable =
-        std::env::var("SHELL").map_or_else(|_| "Could not detect".to_string(), |v| v);
+    let user = unsafe { getpwuid(u32::from(geteuid())).as_ref() }; // what if it's null?
+    if user.is_none() {
+        return String::from("Not available");
+    }
 
-    // run with --version and return the output
-    let output = String::from_utf8(
-        Command::new(shell_executable)
-            .arg("--version")
-            .output()
-            .unwrap()
-            .stdout,
-    )
-    .unwrap();
-
-    output.split("\n").collect::<Vec<&str>>()[0].to_string()
+    unsafe { CStr::from_ptr(user.unwrap().pw_shell).to_str().unwrap().to_string() }
 }
