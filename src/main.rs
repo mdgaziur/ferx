@@ -20,6 +20,9 @@ fn main() {
     }
 
     println!("\x1b{}\x1b[1;0m\n\n", art.unwrap());
+    let user_and_host = format!("{}@{}", info.username, info.host_name);
+    println!("    {}", user_and_host);
+    println!("    {}", String::from("=").repeat(user_and_host.len()));
     println!("    OS:               {}", info.os_name);
     println!("    Host:             {}", info.host_name);
     println!("    Kernel:           {}", info.kernel);

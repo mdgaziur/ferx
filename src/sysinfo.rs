@@ -7,6 +7,7 @@ use crate::fetchers::resolution::get_resolution;
 use crate::fetchers::cpu::get_cpu_model_name;
 use crate::fetchers::gpu::get_gpu;
 use crate::fetchers::memory::get_memory_info;
+use crate::fetchers::username::get_username;
 
 #[derive(Debug)]
 pub struct SystemInformation {
@@ -19,6 +20,7 @@ pub struct SystemInformation {
     pub cpu: String,
     pub gpu: String,
     pub memory: String,
+    pub username: String
 }
 
 impl SystemInformation {
@@ -32,7 +34,8 @@ impl SystemInformation {
             resolution: get_resolution(),
             cpu: get_cpu_model_name(),
             gpu: get_gpu(),
-            memory: get_memory_info()
+            memory: get_memory_info(),
+            username: get_username()
         }
     }
 }
